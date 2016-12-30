@@ -66,24 +66,10 @@ func YourHandler(w http.ResponseWriter, r *http.Request) {
 
 	var clientReq ClientReq
 
-	fromParam := r.URL.Query().Get("from")
-	var size = 0
-
-	if len(fromParam) > 0{
-		size, _ := strconv.Atoi(fromParam)
-		size = size/20
-	}else{
-		size = 0
-	}
-
 	json.Unmarshal(body, &clientReq)
 
-
-
 	params := algoliasearch.Map{
-
 		"hitsPerPage":          20,
-		"page": size,
 	}
 	res, _ := index.Search(clientReq.Text, params)
 

@@ -10,7 +10,6 @@ import (
 	"log"
 	"io/ioutil"
 	"github.com/gorilla/handlers"
-	"strconv"
 )
 
 type Item struct {

@@ -17,4 +17,6 @@ docker build -t tlantic/develop-mrs-worten-catalog:{{.ReleaseBuildInfo.ReleaseDa
 docker stop develop-mrs-worten-catalog
 docker rm develop-mrs-worten-catalog
 docker run -d -p 8000 --name=develop-mrs-worten-catalog \
+           --env SERVICE_TAGS=$SERVICE_TAGS \
+           --env SERVICE_NAME=$SERVICE_NAME \
            tlantic/develop-mrs-worten-catalog:{{.ReleaseBuildInfo.ReleaseData.TagName}}

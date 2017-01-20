@@ -1,0 +1,15 @@
+cd {{.Workspace}}
+
+#Build Image
+docker build -t tlantic/release-mrs-worten-catalog-build:{{.ReleaseBuildInfo.ReleaseData.TagName}} -f Dockerfile.build .
+docker run --name=release-mrs-worten-catalog-build \
+           tlantic/release-mrs-worten-catalog-build:{{.ReleaseBuildInfo.ReleaseData.TagName}} > build.tar.gz
+docker rm release-mrs-worten-catalog-build
+docker rmi -f tlantic/release-mrs-worten-catalog-build:{{.ReleaseBuildInfo.ReleaseData.TagName}}
+
+#Main Image
+docker build -t tlantic/release-mrs-worten-catalog:{{.ReleaseBuildInfo.ReleaseData.TagName}} -f Dockerfile.dist .
+
+#Add images to registry
+docker tag -f tlantic/release-mrs-worten-catalog:{{.ReleaseBuildInfo.ReleaseData.TagName}} localhost:5002/tlantic/release-mrs-worten-catalog:{{.ReleaseBuildInfo.ReleaseData.TagName}}
+docker push localhost:5002/tlantic/release-mrs-worten-catalog:{{.ReleaseBuildInfo.ReleaseData.TagName}}

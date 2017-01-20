@@ -1,0 +1,20 @@
+MRS_CONSUL=consul://172.17.0.1:8500/
+SERVICE_TAGS=http
+SERVICE_NAME=worten-catalog
+
+cd {{.Workspace}}
+
+#Build Image
+docker build -t tlantic/develop-mrs-worten-catalog-build:{{.ReleaseBuildInfo.ReleaseData.TagName}} -f Dockerfile.build .
+docker run --name=develop-mrs-worten-catalog-build \
+           tlantic/develop-mrs-worten-catalog-build:{{.ReleaseBuildInfo.ReleaseData.TagName}} > build.tar.gz
+docker rm develop-mrs-worten-catalog-build
+docker rmi -f tlantic/develop-mrs-worten-catalog-build:{{.ReleaseBuildInfo.ReleaseData.TagName}}
+
+#Main Image
+docker build -t tlantic/develop-mrs-worten-catalog:{{.ReleaseBuildInfo.ReleaseData.TagName}} -f Dockerfile.dist .
+
+docker stop develop-mrs-worten-catalog
+docker rm develop-mrs-worten-catalog
+docker run -d -p 8000 --name=develop-mrs-worten-catalog \
+           tlantic/develop-mrs-worten-catalog:{{.ReleaseBuildInfo.ReleaseData.TagName}}

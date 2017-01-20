@@ -54,7 +54,7 @@ func main(){
 	r := mux.NewRouter()
 	r.HandleFunc("/worten-catalog/products/search", YourHandler).Methods("POST")
 
-	log.Fatal(http.ListenAndServe(":8000", handlers.CORS()(r)))
+	log.Fatal(http.ListenAndServe(":8000", r))
 
 }
 

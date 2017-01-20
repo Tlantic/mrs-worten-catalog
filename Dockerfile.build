@@ -2,14 +2,9 @@ FROM tlantic/golang-build-base:v1.0.0
 
 MAINTAINER Andre Pinto  <mrs@tlantic.com>
 
-RUN mkdir /data
-
-VOLUME ["/data"]
-
 RUN mkdir $GOPATH/src/github.com/Tlantic/mrs-worten-catalog
 
 COPY . $GOPATH/src/github.com/Tlantic/mrs-worten-catalog
-
 
 WORKDIR $GOPATH/src/github.com/Tlantic/mrs-worten-catalog
 

@@ -1,0 +1,22 @@
+from ubuntu:trusty
+
+MAINTAINER Andre Pinto <mrs@tlantic.com>
+
+RUN apt-get update
+RUN apt-get install -y ca-certificates
+
+RUN mkdir -p /app/
+
+RUN mkdir /data
+
+RUN chmod 777 /data
+
+VOLUME ["/data"]
+
+ADD build.tar.gz /app/
+
+WORKDIR /app
+
+EXPOSE  8000
+
+CMD ./api --consul=$MRS_CONSUL

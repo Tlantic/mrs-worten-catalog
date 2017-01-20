@@ -1,0 +1,20 @@
+FROM tlantic/golang-build-base:v1.0.0
+
+MAINTAINER Andre Pinto  <mrs@tlantic.com>
+
+RUN mkdir /data
+
+VOLUME ["/data"]
+
+RUN mkdir $GOPATH/src/github.com/Tlantic/mrs-worten-catalog
+
+COPY . $GOPATH/src/github.com/Tlantic/mrs-worten-catalog
+
+
+WORKDIR $GOPATH/src/github.com/Tlantic/mrs-worten-catalog
+
+RUN eval $(ssh-agent -s); ssh-add /home/gitgo/.ssh/id_rsa; make bundle
+
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-s -w -X main.Version=1" -o bin/api main.go
+
+CMD tar -C bin -czf - api

@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 	"log"
 	"io/ioutil"
-	"github.com/gorilla/handlers"
 )
 
 type Item struct {
